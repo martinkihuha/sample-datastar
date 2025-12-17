@@ -1,0 +1,34 @@
+@each(item in results)
+  @if(!item?.subNavItems || item?.subNavItems.length === 0)
+    <li>
+      <a
+        href="{{ item?.url }}"
+        hx-get="{{ item?.url }}"
+        class="{{ currentUrl && currentUrl.includes(item?.url) ? 'bg-muted text-primary' : '' }}"
+      >
+        @svg(`${currentUrl && currentUrl.includes(item?.url) ? item?.iconSolid : item?.icon}`, { class: 'size-5' })
+        <span>{{ item?.title }}</span>
+      </a>
+    </li>
+  @else
+    <li>
+      <details id="submenu-content-{{ item?.id }}">
+        <summary aria-controls="submenu-content-{{ item?.id }}-content">
+          @svg(`${currentUrl && currentUrl.includes(item?.url) ? item?.iconSolid : item?.icon}`, { class: 'size-5' })
+          {{ item?.title }}
+        </summary>
+
+        <ul id="submenu-content-{{ item?.id }}-content">
+          @each(subItem in item?.subNavItems)
+            <li>
+              <a href="{{ subItem?.url }}">
+                @svg(`${currentUrl && currentUrl.includes(subItem?.url) ? subItem?.iconSolid : subItem?.icon}`, { class: 'size-5' })
+                <span>{{ subItem?.title }}</span>
+              </a>
+            </li>
+          @end
+        </ul>
+      </details>
+    </li>
+  @end
+@end

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @if ($slots.meta)
+      {{{ await $slots.meta() }}}
+    @endif
+    
+    <title>
+      {{ title ? `${title} -` : '' }} Datastar Sample
+    </title>
+
+    <script>
+      (() => {
+        try {
+          const stored = localStorage.getItem("themeMode");
+          if (stored ? stored === "dark" : matchMedia("(prefers-color-scheme: dark)").matches) {
+            document.documentElement.classList.add("dark");
+          }
+        } catch (_) {}
+        const apply = dark => {
+          document.documentElement.classList.toggle("dark", dark);
+          try {
+            localStorage.setItem("themeMode", dark ? "dark" : "light");
+          } catch (_) {}
+        };
+        document.addEventListener("basecoat:theme", event => {
+          const mode = event.detail?.mode;
+          apply(mode === "dark" ? true : mode === "light" ? false : !document.documentElement.classList.contains("dark"));
+        });
+      })();
+    </script>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  </head>
+
+  <body class="w-screen min-h-screen font-sans">
+    <aside class="sidebar" data-side="left" aria-hidden="false">
+      <nav aria-label="Sidebar navigation">
+        <section class="scrollbar">
+          <div role="group" aria-labelledby="group-label-content-1">
+            <a href="/" class="w-full border-b flex items-center gap-2 px-2 py-1">
+              <img
+                src="{{ asset('resources/images/icon.png') }}"
+                alt="Oraro & Company Advocates logo"
+                class="size-8"
+              />
+              <span class="text-2xl ">Datastar <span class="font-extralight text-primary">Sample</span></span>
+            </a>
+
+            <h3 id="group-label-content-1">
+              Main Menu
+            </h3>
+
+            <ul id="nav-item" data-init="@get('/api/nav-items')">
+            </ul>
+          </div>
+        </section>
+      </nav>
+    </aside>
+
+    <main class="h-screen overflow-hidden flex flex-col">
+      <header class="bg-card flex items-center justify-between p-2 md:px-4">
+        <div class="inline-flex items-center gap-4">
+          <button
+            type="button"
+            class="group"
+            data-tooltip="Toggle sidebar"
+            data-side="right"
+            onclick="document.dispatchEvent(new CustomEvent('basecoat:sidebar'))"
+          >
+            <div class="relative flex flex-col items-center justify-center size-5">
+              <span
+                class="absolute w-full h-0.5 bg-muted-foreground rounded-full -translate-y-1.5 transition-all duration-300 group-hover:rotate-45 group-hover:translate-y-0"
+              ></span>
+              <span
+                class="absolute w-full h-0.5 bg-muted-foreground rounded-full transition-all duration-300 group-hover:opacity-0 group-hover:w-3/4 group-hover:translate-x-0.5"
+              ></span>
+              <span
+                class="absolute w-full h-0.5 bg-muted-foreground rounded-full translate-y-1.5 transition-all duration-300 group-hover:-rotate-45 group-hover:translate-y-0"
+              ></span>
+            </div>
+            <span class="sr-only">Toggle sidebar</span>
+          </button>
+
+          <h1 id="page-title">
+            {{ title }}
+          </h1>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Toggle dark mode"
+          data-tooltip="Toggle dark mode"
+          data-side="bottom"
+          onclick="document.dispatchEvent(new CustomEvent('basecoat:theme'))"
+          class="btn-icon-outline size-8"
+        >
+          <span class="hidden dark:block">
+            @svg('radix-icons:sun', { class: 'size-5' })
+          </span>
+          <span class="block dark:hidden">
+            @svg('radix-icons:moon', { class: 'size-5' })
+          </span>
+        </button>
+      </header>
+
+      <div id="content" class="flex-1 overflow-auto bg-muted">
+        {{{ await $slots.main() }}}
+      </div>
+    </main>
+
+  </body>
+</html>
