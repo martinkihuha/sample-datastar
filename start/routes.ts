@@ -16,8 +16,13 @@ const StaticPagesController = () => import('#controllers/static_pages_controller
 const NavItemsController = () => import('#controllers/nav_items_controller')
 
 router.on('/').redirect('/dashboard')
+router.get('/404', [StaticPagesController, 'page404'])
 router.get('/dashboard', [StaticPagesController, 'dashboard'])
 router.get('/team', [StaticPagesController, 'team'])
+router.get('/projects', [StaticPagesController, 'page404'])
+router.get('/calendar', [StaticPagesController, 'page404'])
+router.get('/documents', [StaticPagesController, 'page404'])
+router.get('/reports', [StaticPagesController, 'page404'])
 
 router
   .group(() => {

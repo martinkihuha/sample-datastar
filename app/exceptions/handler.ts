@@ -33,7 +33,14 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    * The method is used for handling errors and returning
    * response to the client
    */
-  async handle(error: unknown, ctx: HttpContext) {
+  async handle(error: any, ctx: HttpContext) {
+    // Handle 404 errors
+    if (error.code === 'E_ROUTE_NOT_FOUND') {
+      return ctx.view.render('pages/errors/not_found', {
+        url: ctx.request.url(),
+      })
+    }
+
     return super.handle(error, ctx)
   }
 

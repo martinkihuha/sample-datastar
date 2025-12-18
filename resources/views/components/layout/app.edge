@@ -35,23 +35,21 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
 
-  <body class="w-screen min-h-screen font-sans">
+  <body class="w-screen min-h-screen font-sans" data-signals="{}">
     <aside class="sidebar" data-side="left" aria-hidden="false">
       <nav aria-label="Sidebar navigation">
         <section class="scrollbar">
           <div role="group" aria-labelledby="group-label-content-1">
-            <a href="/" class="w-full border-b flex items-center gap-2 px-2 py-1">
+            <a class="flex items-center w-full gap-2 p-2 pt-1 mb-2 border-b" href="/dashboard">
               <img
-                src="{{ asset('resources/images/icon.png') }}"
-                alt="Oraro & Company Advocates logo"
-                class="size-8"
+                src="https://data-star.dev/cdn-cgi/image/format=auto,width=48/static/images/rocket-48x48-4c739bfaffe86a6ffcc3a6d77e3c5547730f03d74c11aa460209596d1811f7a3.png"
+                alt="Datastar logo"
+                class="size-5"
               />
-              <span class="text-2xl ">Datastar <span class="font-extralight text-primary">Sample</span></span>
+              <span class="text-xl">
+                Datastar <span class="font-extralight text-primary">Sample</span>
+              </span>
             </a>
-
-            <h3 id="group-label-content-1">
-              Main Menu
-            </h3>
 
             <ul id="nav-item" data-init="@get('/api/nav-items')">
             </ul>
@@ -60,8 +58,8 @@
       </nav>
     </aside>
 
-    <main class="h-screen overflow-hidden flex flex-col">
-      <header class="bg-card flex items-center justify-between p-2 md:px-4">
+    <main class="flex flex-col h-screen overflow-hidden">
+      <header class="flex items-center justify-between p-2 bg-card md:px-4">
         <div class="inline-flex items-center gap-4">
           <button
             type="button"

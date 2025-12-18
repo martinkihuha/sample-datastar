@@ -2,9 +2,8 @@
   @if(!item?.subNavItems || item?.subNavItems.length === 0)
     <li>
       <a
-        href="{{ item?.url }}"
-        hx-get="{{ item?.url }}"
         class="{{ currentUrl && currentUrl.includes(item?.url) ? 'bg-muted text-primary' : '' }}"
+        href="{{ item?.url }}"
       >
         @svg(`${currentUrl && currentUrl.includes(item?.url) ? item?.iconSolid : item?.icon}`, { class: 'size-5' })
         <span>{{ item?.title }}</span>
@@ -21,7 +20,10 @@
         <ul id="submenu-content-{{ item?.id }}-content">
           @each(subItem in item?.subNavItems)
             <li>
-              <a href="{{ subItem?.url }}">
+              <a
+                class="{{ currentUrl && currentUrl.includes(subItem?.url) ? 'bg-muted text-primary' : '' }}"
+                href="{{ subItem?.url }}"
+              >
                 @svg(`${currentUrl && currentUrl.includes(subItem?.url) ? subItem?.iconSolid : subItem?.icon}`, { class: 'size-5' })
                 <span>{{ subItem?.title }}</span>
               </a>
